@@ -156,7 +156,7 @@ export default {
 
     computed: {
         endpoint() {
-            return `api/resep`;
+            return `../api/resep`;
         },
     },
 
@@ -166,7 +166,7 @@ export default {
 
     methods: {
         getData() {
-            axios.get(`api/indexcreate`, {})
+            axios.get(`../api/indexcreate`, {})
                 .then((response)=>{
                     this.obats = response.data.obats;
                     this.signas = response.data.signas; 
