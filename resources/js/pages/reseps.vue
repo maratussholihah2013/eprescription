@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h3>
-                        Riwayat Resep
+                        Daftar Semua Riwayat Resep
                     </h3>
                     <div class="card-tools ml-auto ">
                         <div class="input-group input-group-sm">

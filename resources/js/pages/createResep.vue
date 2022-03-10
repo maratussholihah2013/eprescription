@@ -4,6 +4,14 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h3 >Pembuatan Resep Baru</h3>
+                    <div class="card-tools ml-auto ">
+                        <div class="input-group input-group-sm">
+                          <!-- Button New -->
+                            <router-link :to="{ name: 'AllResep' }"  class="btn btn-success">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                   <form @submit.prevent="submitData()">
@@ -71,7 +79,7 @@
                             <tr>
                                 <th></th>
                                 <td class="modal-footer d-flex justify-content-start">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </td>
                             </tr>
                         </tfoot>
@@ -260,11 +268,11 @@ export default {
                         }
             })
             .then((res) => {
-                console.log(res.data);
                 swal.fire({
                     icon:'success',
                     title:'Data resep created successfully'
                 })
+                window.location.replace(res.data.id);
             })
             .catch(e => {
                console.log(e.response);

@@ -4,6 +4,14 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h3 >Riwayat Resep</h3>
+                    <div class="card-tools ml-auto ">
+                        <div class="input-group input-group-sm">
+                          <!-- Button New -->
+                            <router-link :to="{ name: 'AllResep' }"  class="btn btn-success">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body" id="printMe">
                     <table class="table table-striped" v-if="resep">
