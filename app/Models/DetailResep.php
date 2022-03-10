@@ -23,6 +23,6 @@ class DetailResep extends Model
 
     public function detailRacikans()
     {
-        return $this->hasMany(DetailRacikan::class);
+        return $this->hasMany(DetailRacikan::class)->with('obatalkes');
     }
 }

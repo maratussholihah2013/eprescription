@@ -16,6 +16,6 @@ class Resep extends Model
 
     public function detailReseps()
     {
-        return $this->hasMany(DetailResep::class);
+        return $this->hasMany(DetailResep::class)->with(['detailRacikans','signa']);
     }
 }

@@ -17,3 +17,4 @@ use App\Http\Controllers\ResepController;
 
 Route::apiResource('/resep',ResepController::class);
 Route::get('/indexcreate', [ResepController::class, 'indexCreate']); 
+Route::get('/resep/{id}', [ProjectController::class,'show']); 

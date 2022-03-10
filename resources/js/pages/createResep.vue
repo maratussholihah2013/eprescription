@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                      <button @click.prevent="addDetailResep()" class="btn btn-primary" v-show="isFormCreateMode">Tambahkan</button>
+                      <button @click.prevent="addDetailResep()" class="btn btn-success" v-show="isFormCreateMode">Tambahkan</button>
                     </div>
                 </div>
               </div>

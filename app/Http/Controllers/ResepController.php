@@ -97,9 +97,11 @@ class ResepController extends Controller
      * @param  \App\Models\Resep  $resep
      * @return \Illuminate\Http\Response
      */
-    public function show(Resep $resep)
+    public function show($id)
     {
+        $resep = Resep::with('detailReseps')->findOrFail($id);
 
+        return response()->json($resep);
     }
 
     /**
