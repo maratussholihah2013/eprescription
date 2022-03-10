@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resep;
+use App\Models\Obatalkes;
+use App\Models\Signa;
 use App\Http\Requests\StoreResepRequest;
 use App\Http\Requests\UpdateResepRequest;
+use Illuminate\Http\Request;
 
 class ResepController extends Controller
 {
@@ -15,7 +18,7 @@ class ResepController extends Controller
      */
     public function index()
     {
-        $reseps = Resep::with('detailResep')->orderBy('created_date','DESC')->get();
+        $reseps = Resep::with('detailReseps')->orderBy('created_date','DESC')->get();
         return response()->json($reseps);
     }
 
@@ -24,9 +27,16 @@ class ResepController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function indexCreate()
     {
-        //
+        
+        $obats = Obatalkes::select(['id','obatalkes_kode','obatalkes_nama','stok'])->get();
+        $signas = Signa::select(['id','signa_kode','signa_nama'])->get();
+
+        return response()->json([
+                    'obats' => $obats,
+                    'signas' => $signas
+                ]);
     }
 
     /**
@@ -35,7 +45,7 @@ class ResepController extends Controller
      * @param  \App\Http\Requests\StoreResepRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreResepRequest $request)
+    public function store(Request $request)
     {
         //membuat resep baru dan mengambil data model resep
         $resep = Resep::create([
@@ -53,25 +63,25 @@ class ResepController extends Controller
             //melooping ada berapa jenis detail dalam satu resep
             foreach ($detailReseps as $detailResep) {
                 //menyimpan detail resep baru dg data id resep,id signa, jenis racikan (racikan/non) dan nama racikan
-                $savedDetailResep = $resep->detailResep()->create([
+                $savedDetailResep = $resep->detailReseps()->create([
                     'resep_id' => $resep->id,
-                    'signa_id' => $detailResep->signa_id,
-                    'jenis_racikan' => $detailResep->jenis_racikan,
-                    'nama_racikan' => $detailResep->nama_racikan,
+                    'signa_id' => $detailResep["signa_id"],
+                    'jenis_racikan' => $detailResep["jenis_racikan"],
+                    'nama_racikan' => $detailResep["nama_racikan"],
                 ]);
                 //setiap detail resep akan menyimpan detail racikan (jika non racikan hanya akan loop 1 baris untuk menyimpan nama dan quantity obat, jika racikan maka akan loop sebanyak jumlah obatnya)
-                $detailRacikans = $request->detailRacikan;
+                $detailRacikans = $detailResep["detailRacikan"];
                 if($detailRacikans != null){
                     foreach ($detailRacikans as $detailRacikan) {
                         //menyimpan data detail racikan perline/per-obat-nya
-                        $savedDetailResep->detailRacikan()->create([
-                            'obatalkes_id' => $detailRacikan->obatalkes_id,
-                            'detailresep_id' => $savedDetailResep->id,
-                            'quantity' => $detailRacikan->quantity,
+                        $savedDetailResep->detailRacikans()->create([
+                            'obatalkes_id' => $detailRacikan["obatalkes_id"],
+                            'detail_resep_id' => $savedDetailResep->id,
+                            'kuantitas' => $detailRacikan["quantity"],
                         ]);
                         //mengubah stok yg ada di tabel obat dikurangi jumlah obat dlm resep
-                        $obat = Obatalkes::findOrFail($detailRacikan->obatalkes_id);
-                        $obat->update(['stok'=> ($obat->stok - $detailRacikan->quantity),]);
+                        $obat = Obatalkes::findOrFail($detailRacikan["obatalkes_id"]);
+                        $obat->update(['stok'=> ($obat->stok - $detailRacikan["quantity"]),]);
                         $obat->save();
                     }
                 }
@@ -89,7 +99,7 @@ class ResepController extends Controller
      */
     public function show(Resep $resep)
     {
-        //
+
     }
 
     /**

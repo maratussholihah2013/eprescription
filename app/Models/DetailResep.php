@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class DetailResep extends Model
 {
     use HasFactory;
+    
+    protected $fillable=['resep_id','signa_id','jenis_racikan','nama_racikan'];
 
     public function signa()
     {

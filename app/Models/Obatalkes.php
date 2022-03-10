@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Obatalkes extends Model
 {
     use HasFactory;
+    protected $fillable=['stok'];
 
  	public $timestamps = false;
  	
