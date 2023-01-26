@@ -8,4 +8,6 @@ Deployment Steps:
     - php artisan key:generate
     - php artisan cache:clear
     - php artisan migrate:fresh --seed
+    - npm install
+    - npm run dev
 6. Open browser, type yourserver/eprescription/public
